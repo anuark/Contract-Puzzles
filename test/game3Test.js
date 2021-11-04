@@ -14,12 +14,20 @@ describe("Game3", function() {
     // and passing in the zero-based indexed of the signer you want:
     const signer = ethers.provider.getSigner(0);
     const address = await signer.getAddress();
+    
+    const signer2 = ethers.provider.getSigner(1);
+    const address2 = await signer2.getAddress();
+
+    const signer3 = ethers.provider.getSigner(2);
+    const address3 = await signer3.getAddress();
 
     // to call a contract as a signer you can use contract.connect
-    await game.connect(signer).buy({ value: "1" });
+    await game.connect(signer).buy({ value: "2" });
+    await game.connect(signer2).buy({ value: "3" });
+    await game.connect(signer3).buy({ value: "1" });
 
     // TODO: win expects three arguments
-    await game.win();
+    await game.win(address, address2, address3);
 
     // leave this assertion as-is
     assert(await game.isWon(), "You did not win the game");

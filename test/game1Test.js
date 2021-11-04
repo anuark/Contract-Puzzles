@@ -4,6 +4,7 @@ describe("Game1", function() {
   it("should be a winner", async function() {
     const Game = await ethers.getContractFactory("Game1");
     const game = await Game.deploy();
+    await game.unlock();
     await game.deployed();
 
     // you must call unlock before you can win

@@ -6,11 +6,19 @@ describe("Game5", function() {
     const game = await Game.deploy();
     await game.deployed();
 
-    // good luck
+    let wallet = ethers.Wallet.createRandom();
+    while(wallet.address.slice(0,4) !== "0x00") {
+      wallet = ethers.Wallet.createRandom();
+    }
 
-    await game.win();
+    const signer = ethers.provider.getSigner(0);
+    await signer.sendTransaction({
+      to: wallet.address,
+      value: ethers.utils.parseEther("1")
+    });
 
-    // leave this assertion as-is
+    await game.connect(wallet.connect(ethers.provider)).win();
+
     assert(await game.isWon(), "You did not win the game");
   });
 });
